@@ -1,9 +1,12 @@
-const http = require("http");
+//ecmascript destructuring
+const { get } = require("https");
 
-http.request("www.google.com", (res) => {
-  console.log(res.statusCode);
-  console.log(res.headers);
-  res.on("data", (data) => {
-    console.log(data.toString());
+const req = get("https://www.google.com", (res) => {
+  //event listener for the response event
+  res.on("data", (chunk_data) => {
+    console.log(chunk_data.toString());
   });
 });
+
+//this will cause request to be sent.
+req.end();
