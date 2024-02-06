@@ -15,3 +15,5 @@ module.exports = {
 
 module.exports.REQ_TIMEOUT = 1000;
 //module.exports.VARIABLE_NAME or FUNCTION_NAME
+
+console.log("module caching. this proves that the module is only loaded once.");
