@@ -5,6 +5,7 @@ const port = 3030;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(logger);
 
 //using ejs
 app.set("view engine", "ejs");
@@ -17,6 +18,11 @@ const userRouter = require("./routes/users.js");
 
 //middleware for nested routers
 app.use("/users", userRouter);
+
+function logger(req, res, next) {
+  console.log(req.originalUrl);
+  next();
+}
 
 app.listen(port);
 
