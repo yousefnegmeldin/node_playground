@@ -14,7 +14,7 @@ initializedPassport(passport, (email) =>
   users.find((user) => user.email === email)
 );
 
-const PORT = 3000;
+const PORT = 4000;
 
 const users = [];
 
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: "secret",
     resave: false,
     saveUninitialized: false,
   })
@@ -37,9 +37,14 @@ app.get("/", (req, res) => {
   res.render("index.ejs", { name: "yousef" });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
+app.get(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true,
+  })
+);
 
 app.get("/register", (req, res) => {
   res.render("register.ejs");
