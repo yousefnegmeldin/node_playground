@@ -1,7 +1,19 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 var path = require("path");
 const app = express();
 const bcrypt = require("bcrypt");
+const passport = require("passport");
+const initializedPassport = require("./passport-config");
+const flash = require("express-flash");
+const session = require("express-session");
+initializedPassport(passport, (email) =>
+  users.find((user) => user.email === email)
+);
+
 const PORT = 3000;
 
 const users = [];
@@ -10,6 +22,16 @@ app.set("views", path.join(__dirname, "views"));
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+app.use(flash());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.render("index.ejs", { name: "yousef" });
